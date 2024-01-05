@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Receitas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">  
+  <style>
+    .bg-warning {
+      background-color: #ffc107 !important;
+    }
+  </style>
+</head>
+<body class="container-fluid bg-warning" onload="preencheCatalogo()">
+
+  <header class="fundo-rosa text-center">
+    <h1 class="cor-personalizada">Receitas</h1>
+
+    <!-- Itens do menu -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" :class="{ 'active': paginaAtual === 'ordenando' }" href="ordenando.html">Ordenação</a>
+              
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" :class="{ 'active': paginaAtual === 'receitasboas' }" href="receitasboas.html">Página de Receitas Dinâmica</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" :class="{ 'active': paginaAtual === 'usuarios' }" href="usuarios.html">Transmissão de Dados VueJs</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Área principal -->
+  <main class="fundo-rosa">
+    <section class="d-flex flex-wrap" id="pnlCatalogo">
+      <!-- Os cards de receitas serão adicionados aqui -->
+    </section>
+  </main>
+
+  <!-- VueJs para menu -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<script>
+  // Componentes para cada página
+  const ordenando = {
+    template: '<div><h2>Ordenando Página</h2></div>'
+  };
+
+  const receitasboas = {
+    template: '<div><h2>Página de Receitas Dinâmica</h2></div>'
+  };
+
+  const usuarios = {
+    template: '<div><h2>Transmissão de Dados VueJs Página</h2></div>'
+  };
+
+  new Vue({
+    el: '#app',
+    data: {
+      paginaAtual: 'ordenando' // Página inicial
+    },
+    components: {
+      ordenando,
+      receitasboas,
+      usuarios
+    }
+  });
+</script>
+
+ <!-- Rodapé -->
+ <footer class="bg-dark text-white text-center p-1">
+  <p>&copy; 2023 Dev Alex Barroso Paz.</p>
+</footer>
+
+
+  <script>
+    const receitas = [
+      {
+        titulo: "Bolo de Chocolate",
+        imagem: "bolo de chocolate.jpg",
+        ingredientes: ["3 ovos", "1 e 1/2 xícara (chá) de açúcar", "1/2 xícara (chá) de óleo", "1 xícara (chá) de chocolate em pó", "2 xícaras (chá) de farinha de trigo", "1 colher (chá) de fermento químico", "1 colher (chá) de bicarbonato de sódio"],
+        preparo: "Modo de preparo: Pré-aqueça o forno a 180°C. Unte e enfarinhe uma forma redonda de 24 cm de diâmetro. Em uma tigela, bata os ovos com o açúcar até formar uma massa fofa e clara. Junte o óleo e o chocolate em pó e bata até incorporar. Em outra tigela, misture a farinha de trigo, o fermento químico e o bicarbonato de sódio. Adicione os ingredientes secos aos ingredientes molhados e misture até formar uma massa homogênea. Despeje a massa na forma preparada e leve ao forno por 30 a 35 minutos, ou até que um palito inserido no centro do bolo saia limpo. Deixe o bolo esfriar completamente antes de desenformar."
+      },
+      {
+        titulo: "Pão de Queijo",
+        imagem: "pao de queijo.jpg",
+        ingredientes: ["500 g de polvilho azedo", "1 xícara (chá) de água", "1/2 xícara (chá) de leite", "1/4 xícara (chá) de óleo", "2 ovos", "100 g de queijo parmesão ralado", "Sal a gosto"],
+        preparo: "Modo de preparo: Em uma panela, leve ao fogo médio a água, o leite e o óleo. Assim que ferver, retire do fogo e adicione o polvilho azedo e o sal. Misture bem até formar uma massa homogênea. Deixe a massa esfriar um pouco. Adicione os ovos e o queijo parmesão ralado e misture bem. Unte as mãos com óleo e enrole a massa em bolinhas de 2 cm de diâmetro. Coloque as bolinhas em uma assadeira untada com óleo. Leve ao forno preaquecido a 200°C por 20 a 25 minutos, ou até que os pães de queijo estejam dourados."
+      },
+      {
+        titulo: "Sopa de Legumes",
+        imagem: "sopa.jpg",
+        ingredientes: ["1 cebola média picada", "2 dentes de alho picados", "2 cenouras médias picadas", "2 batatas médias picadas", "1 abobrinha média picada", "1 tomate médio picado", "1 litro de água", "1 caldo de legumes", "Sal e pimenta a gosto"],
+        preparo: "Modo de preparo: Em uma panela, refogue a cebola e o alho no azeite até dourar. Adicione os legumes picados e refogue por mais alguns minutos. Junte a água, o caldo de legumes, o sal e a pimenta e deixe cozinhar por cerca de 30 minutos, ou até que os legumes estejam macios. Bata a sopa com um mixer ou liquidificador até ficar homogênea. Sirva quente com torradas ou croutons."
+      },
+      // Adicione mais receitas conforme necessário
+    ];
+
+    function getListaIngredientes(ingredientes) {
+      return `<ul>${ingredientes.map(ingrediente => `<li>${ingrediente}</li>`).join('')}</ul>`;
+    }
+
+    function getCard(receita) {
+      return `
+        <div class="card" style="width: 441px;">
+          <img src="${receita.imagem}" alt="${receita.titulo}" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">${receita.titulo}</h5>
+            <div class="card-text">
+              ${getListaIngredientes(receita.ingredientes)}
+              <hr>
+              <p>${receita.preparo}</p>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function preencheCatalogo() {
+      const pnlCatalogo = document.getElementById('pnlCatalogo');
+      pnlCatalogo.innerHTML = receitas.map(receita => getCard(receita)).join('');
+    }
+
+    window.onload = preencheCatalogo;
+  </script>
+
+  <!-- jQuery e Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
+</html>

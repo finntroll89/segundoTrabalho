@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ordenação e Mistura</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <script src="ordenando.js"></script>
+  <script src="usuarios.js"></script>
+
+  <!-- Pequeno CSS Para o roda pé-->
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    #app {
+      flex: 1;
+    }
+
+    footer {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+
+<body class="container bg-warning" style="margin-top: auto;">
+  <!-- Vue.Js -->
+  <div id="app" class="container mt-5">
+    <!-- Navbar -->
+    <!-- Itens do menu -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav collapse-in">
+            <li class="nav-item">
+              <a class="nav-link" href="ordenando.html">Ordenação</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="receitasboas.html">Página de Receitas Dinâmica</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="usuarios.html">Transmissão de Dados VueJs </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Conteúdo principal -->
+    <main class="row mt-4">
+      <!-- Campo de seleção -->
+      <div class="col-md-4">
+        <label for="algoritmo" class="font-weight-bold">Algoritmo</label>
+        <select class="form-control" id="algoritmo" v-model="algoritmo">
+          <option value="bubbleSort">Bubble Sort</option>
+          <option value="selectionSort">Selection Sort</option>
+          <option value="quickSort">Quick Sort</option>
+        </select>
+      </div>
+
+      <!-- Campo de entrada numérico -->
+      <div class="col-md-4">
+        <label for="valor" class="font-weight-bold">Valor</label>
+        <div class="input-group mb-3 ">
+          <input type="number" id="valor" class="form-control" v-model="novoValor" @keyup.enter="adicionar">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" @click="adicionar">Adicionar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botões Ordenar e Misturar -->
+      <div class="col-md-2 mr-8 mb-3 d-flex justify-content-end align-items-end">
+        <div class="btn-group" role="group">
+          <button class="btn btn-primary" type="button" @click="ordenar">Ordenar</button>
+          <button class="btn btn-secondary" type="button" @click="misturar">Misturar</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Lista -->
+    <ul id="valores" class="list-group mt-4">
+      <li class="list-group-item" v-for="(item, index) in valores.slice(0, 10)" :key="index">{{ item }}</li>
+    </ul>
+
+    <!-- Mensagem de ação -->
+    <div id="acaoNaTela" class="mt-4">
+      <p>{{ acaoNaTela }}</p>
+    </div>
+
+  </div>
+  <!-- Rodapé -->
+  <footer class="footer py-1 bg-dark text-white text-center">
+    <div class="container-fluid">
+      &copy; Dev Alex Barroso Paz 2023
+    </div>
+  </footer>
+
+  <section>
+    <!-- Bootstrap JS Vue -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"></script>
+    <script>
+      new Vue({
+        el: '#app',
+        data: {
+          novoValor: '',
+          valores: [],
+          algoritmo: 'bubbleSort',
+          acaoNaTela: ''
+        },
+        methods: {
+          adicionar() {
+            const valor = parseInt(this.novoValor);
+            if (!isNaN(valor)) {
+              this.valores.push(valor);
+              this.novoValor = '';
+              this.acaoNaTela = ''; // Limpar mensagem de ação
+            }
+          },
+          ordenar() {
+            const copiaValores = [...this.valores];
+            switch (this.algoritmo) {
+              case 'bubbleSort':
+                bubble_sort(copiaValores);
+                this.acaoNaTela = 'Lista ordenada usando Bubble Sort';
+                break;
+              case 'selectionSort':
+                selection_sort(copiaValores);
+                this.acaoNaTela = 'Lista ordenada usando Selection Sort';
+                break;
+              case 'quickSort':
+                quick_sort(copiaValores, 0, copiaValores.length - 1);
+                this.acaoNaTela = 'Lista ordenada usando Quick Sort';
+                break;
+              default:
+                break;
+            }
+            this.valores = copiaValores;
+          },
+          misturar() {
+            shuffle(this.valores, this.valores.length * 2);
+            this.acaoNaTela = 'Lista misturada';
+          }
+        }
+      });
+    </script>
+  </section>
+</body>
+
+</html>
